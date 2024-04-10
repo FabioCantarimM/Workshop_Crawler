@@ -16,9 +16,13 @@ class MercadoLivreCrawler:
 
             data = []
             for result in results:
+                link = None
                 title = result.find("h2", class_="ui-search-item__title").text.strip()
                 price = result.find("span", class_="andes-money-amount__fraction").text.strip()
-                data.append({"Produto": title, "Preço": price})
+                link_tag =  result.find("a", class_="ui-search-link")
+                if link_tag:
+                    link = link_tag.get("href")
+                data.append({"Produto": title, "Preço": price, "URL": link})
 
             return data
         else:
