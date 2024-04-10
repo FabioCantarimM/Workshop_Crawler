@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "poetry new workshop-crawler"
+version = "0.1.0"
+description = "Projeto para o Workshop de Crawler"
+authors = ["Fabio Cantarim <fabio.cantarim@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+selenium = "^4.19.0"
+beautifulsoup4 = "^4.12.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
