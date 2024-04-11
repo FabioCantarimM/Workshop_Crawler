@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from browser.crawlers.default_crawler import AbstractCrawler
 from browser.provider.actions.dict import action_dict
 
-class GenericCrawler(AbstractCrawler):
+class GenericBrowserCrawler(AbstractCrawler):
     def __init__(self, type):
         super().__init__()
         self.type = type
@@ -34,7 +34,6 @@ class GenericCrawler(AbstractCrawler):
         before = self.steps["script"]["before"]
         if before:
             for action in before:
-                print(f'{action} : {before[action]}')
                 if action_dict[action] is None:
                     raise("Script não definido")
                 action_dict[action](self.browser, before[action])
@@ -44,7 +43,6 @@ class GenericCrawler(AbstractCrawler):
         after = self.steps["script"]["after"]
         if after:
             for action in after:
-                print(f'{action} : {after[action]}')
                 if action_dict[action] is None:
                     raise("Script não definido")
                 action_dict[action](self.browser, after[action])
@@ -65,7 +63,6 @@ class GenericCrawler(AbstractCrawler):
             product = {}
             for step in self.steps["product"]:
                 value = self.steps["product"][step]
-                print(result)
                 try:
                     content = eval(value)
                 except:
@@ -79,5 +76,6 @@ class GenericCrawler(AbstractCrawler):
         df = df.assign(keyword=self.query)
         df = df.assign(ecommerce = self.type)
         df = df.assign(dateTimeReference=datetime.now().isoformat())
+        df = df.assign(crawlerType = "Browser")
         return df
 
