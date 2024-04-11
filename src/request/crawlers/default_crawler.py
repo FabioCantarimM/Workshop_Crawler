@@ -7,24 +7,11 @@ from tools.mongodb import MongoConnection
 
 class AbstractCrawler(ABC):
     def __init__(self):
-        self.browser = GenericBrowserCrawler().get_browser()
         self.redis = RedisClient.get()
         self.mongo = MongoConnection()
 
     @abstractmethod
     def crawl(self):
-        pass
-    
-    @abstractmethod
-    def execute_main(self):
-        pass
-    
-    @abstractmethod
-    def execute_before(self):
-        pass
-    
-    @abstractmethod
-    def execute_before(self):
         pass
 
     def get_steps(self, site):

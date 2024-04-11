@@ -1,4 +1,4 @@
-from browser.ec_crawler import Ml_Crawler
+from browser.generic_crawler import Ml_Crawler
 
 
 ml = Ml_Crawler("Ml").crawl('Nintendo Switch')
