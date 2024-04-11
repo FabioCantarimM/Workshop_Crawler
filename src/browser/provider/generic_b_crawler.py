@@ -4,23 +4,24 @@ from selenium import webdriver
 class GenericBrowserCrawler:
 
     browser: None
-    options: None
+    options = webdriver.ChromeOptions()
 
     def __init__(self):
         pass
 
     def get_browser(self, args: list[str]):
         self.set_options(args)
-        self.set_proxy()
         self.browser = self.driver = webdriver.Chrome(options=self.options)
     
     def is_headless(self):
-        return os.getenv('HEADLESS', True)
+        headless = os.getenv('HEADLESS', True)
+        if headless:
+            self.options.add_argument("--headless")
+
     
     def set_options(self, args: list[str]):
-        options = webdriver.ChromeOptions()
-        if self.is_headless():
-            self.options.add_argument("--headless")
+        self.is_headless()
+        self.set_proxy()
         if args:
             for arg in args:
                 self.options.add_argument(arg)
