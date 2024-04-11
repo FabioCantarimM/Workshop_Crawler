@@ -2,14 +2,14 @@ from abc import ABC, abstractmethod
 
 from browser.provider.generic_b_crawler import GenericBrowserCrawler
 from tools.redis import RedisClient
-from tools.mongodb import MongoClient
+from tools.mongodb import MongoConnection
 
 
 class AbstractCrawler(ABC):
     def __init__(self):
-        self.browser = GenericBrowserCrawler().get
+        self.browser = GenericBrowserCrawler().get_browser()
         self.redis = RedisClient.get()
-        self.mongo = MongoClient()
+        self.mongo = MongoConnection()
 
     @abstractmethod
     def crawl(self):

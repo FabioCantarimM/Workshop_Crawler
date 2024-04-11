@@ -6,20 +6,30 @@ class GenericBrowserCrawler:
     browser: None
     options = webdriver.ChromeOptions()
 
-    def __init__(self):
-        pass
+    default_options =  [
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-setuid-sandbox",
+        "--disable-web-security",
+        "--disable-dev-shm-usage",
+        "--memory-pressure-off",
+        "--ignore-certificate-errors",
+        "--disable-features=site-per-process"]
 
-    def get_browser(self, args: list[str]):
-        self.set_options(args)
-        self.browser = self.driver = webdriver.Chrome(options=self.options)
+    def get_browser(self, args: list[str] = None):
+        new_args = args
+        if args is None:
+            new_args = self.default_options
+        self.set_options(new_args)
+        return webdriver.Chrome(options=self.options)
     
     def is_headless(self):
-        headless = os.getenv('HEADLESS', True)
-        if headless:
+        headless = os.getenv('HEADLESS')
+        if headless is None:
             self.options.add_argument("--headless")
 
     
-    def set_options(self, args: list[str]):
+    def set_options(self, args: list[str] | None):
         self.is_headless()
         self.set_proxy()
         if args:
@@ -35,7 +45,3 @@ class GenericBrowserCrawler:
             port = os.getenv("PROXY_PORT")
             proxy_provider = f'http://{user}:{password}@{url}:{port}'
             self.options.add_argument(f'--proxy-server={proxy_provider}')
-
-    def close_chromium(self):
-        if self.driver:
-            self.driver.quit()

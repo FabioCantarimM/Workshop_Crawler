@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from pymongo import MongoClient
 
-class MongoClient:
+class MongoConnection:
     _instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -16,7 +16,7 @@ class MongoClient:
     def __init__(self, host='localhost', port=27017, database='test', collection='data'):
         if self._client is None:
             self.host = os.getenv("MONGO_HOST", host)
-            self.port = os.getenv("MONGO_PORT",port)
+            self.port = int(os.getenv("MONGO_PORT",port))
             self.database_name = os.getenv("MONGO_DATABASE",database)
             self.collection_name = os.getenv("MONGO_COLLECTION",collection)
             self._connect()
